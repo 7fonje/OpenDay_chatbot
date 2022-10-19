@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <title>MPU-Bot</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ <style>
+ * {
+ background-color: #8ee4af;
+ box-sizing: border-box;
+ }/* Set height of body and the document to 100% */
+ body, html {
+ height: 100%;
+ margin: 0;
+ font-family: Arial;
+ }
+ #chatbox {
+ margin-left: auto;
+ margin-right: auto;
+ width: 65%;
+ margin-top: 60px;
+ }
+ #userInput {
+ margin-left: auto;
+ margin-right: auto;
+ width: 60%;
+ margin-top: 60px;
+ }
+ #textInput {
+ width: 90%;
+ border: none;
+ border-bottom: 3px solid black;
+ font-family: monospace;
+ font-size: 17px;
+ }
+ .userText {
+ color: #edf5e1;
+ font-family: monospace;
+ font-size: 20px;
+ text-align: right;
+ line-height: 30px;
+ }
+ .userText span {
+ background-color: #05386b;
+ padding: 10px;
+ border-radius: 2px;
+ }
+ .botText {
+ color: #edf5e1;
+ font-family: monospace;
+ font-size: 20px;
+ text-align: left;
+ line-height: 30px;
+ }
+ .botText span {
+ background-color: #1E8449;
+ padding: 10px;
+ border-radius: 2px;
+ }
+ #tidbit {
+ position: absolute;
+ bottom: 0;
+ right: 0;
+ width: 300px;
+ }
+ .boxed {
+ margin-left: auto;
+ margin-right: auto;
+ width: 65%;
+ margin-top: 66px;
+ border: 3px solid whitesmoke;
+     overflow: hidden;
+     clear: both;
+ }
+ </style>
+</head>
+   <!--p align="center"><img src="img.png" alt="MPU-BOT" height="300" width="300"></p-->
+
+
+<body>
+<!--img src="mpu.jpgg" alt="Trulli" width="100" height="100"-->
+ <div>
+  <h1 align="center" style="color: #05386b; font-family: Georgia, Times, serif; font-size: 79px"><b>Welcome to MPU Open Day</b></h1>
+ <h4 align="center" style="color: #05386b; font-family: Papyrus"><b>Developed by Fengyu Liu</b></h4>
+ <div class="boxed">
+ <div>
+ <div id="chatbox">
+ <p class="botText">
+ <span>Hello! This is MPU chatting robot, you're welcome to press the Speak button to speak with me ;) </span>
+ </p>
+ </div>
+ <div id="userInput" style="margin-bottom: 35px;">
+ <input id="textInput" type="text"  name="msg" placeholder="Message" />
+ </div>
+ </div>
+   <button id='btnGiveCommand' style="float: right; width:130px;height:50px; background-color:#edf5e1">Speak!</button>
+  <!--button type="button" id="mic">Record a voice note</button-->
+  <!--button type="button" id="record" hidden>Record</button-->
+  </div>
+ </div>
+
+
+
+  <! -- script for speech recognition, calls getBotResponse-->
+ <script>
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+        var mail = new SpeechRecognition();
+        mail.lang= 'en-US';
+        mail.interimResults = false;
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        document.getElementById("btnGiveCommand").onclick = function()
+        {
+            recognition.start();
+        }
+        recognition.onresult = function(event) {
+                 var last = event.results.length - 1;
+                 var command = event.results[last][0].transcript;
+                 getBotResponse(command);
+                }
+        document.getElementById("play").onclick= function()
+                {
+                 mail.start();
+                }
+        mail.onresult = function(event) {
+                  var last = event.results.length - 1;
+                  vm = event.results[last][0].transcript;
+                }
+
+        document.getElementById("record").onclick = function()
+                {
+                    var synth = window.speechSynthesis;
+                    voice = synth.getVoices[0];
+                    var utterThis = new SpeechSynthesisUtterance(vm);
+                    utterThis.voice=voice;
+                    synth.speak(utterThis);
+                    file = vm+".mp3";
+                    file.save();
+                }
+ </script>
+
+  <! -- script for speech synthesis -->
+  <script>
+   function talkback(data) {
+       var synth = window.speechSynthesis;
+       voices = synth.getVoices[1];
+       var utterThis = new SpeechSynthesisUtterance(data);
+       utterThis.lang = 'en-US';
+       utterThis.voice=voices;
+       synth.speak(utterThis);
+   }
+  </script>
+
+
+  <! -- script for talking user text msgs printing them, getting bot reply and printing them, it call speech synthesis script -->
+ <script>
+     function getBotResponse(rawText) {
+         var rawText = rawText;
+         var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
+         $("#textInput").val("");
+         $("#chatbox").append(userHtml);
+         document
+         .getElementById("userInput")
+         .scrollIntoView({ block: "start", behavior: "smooth" });
+         $.get("/get", { msg: rawText }).done(function (data) {
+             var botHtml = '<p class="botText"><span>' + data + "</span></p>";
+             talkback(data);
+
+             $("#chatbox").append(botHtml);
+             document
+             .getElementById("userInput")
+             .scrollIntoView({ block: "start", behavior: "smooth" });
+             });
+         }
+         $("#textInput").keypress(function (e) {
+         if (e.which == 13) {
+         getBotResponse($("#textInput").val());
+         }
+     });
+ </script>
+
+      <ul id="recordings"></ul>
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        const getMic = document.getElementById('mic');
+        const recordButton = document.getElementById('record');
+        const list = document.getElementById('recordings');
+        if ('MediaRecorder' in window) {
+          getMic.addEventListener('click', async () => {
+            getMic.setAttribute('hidden', 'hidden');
+            try {
+              const stream = await navigator.mediaDevices.getUserMedia({
+                audio: true,
+                video: false
+              });
+              const mimeType = 'audio/webm';
+              let chunks = [];
+              const recorder = new MediaRecorder(stream, { type: mimeType });
+              recorder.addEventListener('dataavailable', event => {
+                if (typeof event.data === 'undefined') return;
+                if (event.data.size === 0) return;
+                chunks.push(event.data);
+              });
+              recorder.addEventListener('stop', () => {
+                const recording = new Blob(chunks, {
+                  type: mimeType
+                });
+                renderRecording(recording, list);
+                chunks = [];
+              });
+              recordButton.removeAttribute('hidden');
+              recordButton.addEventListener('click', () => {
+                if (recorder.state === 'inactive') {
+                  recorder.start();
+                  recordButton.innerText = 'Stop';
+                } else {
+                  recorder.stop();
+                  recordButton.innerText = 'Record';
+                }
+              });
+            } catch {
+              renderError(
+                'You denied access to the microphone so this demo will not work.'
+              );
+            }
+          });
+        } else {
+          renderError(
+            "Sorry, your browser doesn't support the MediaRecorder API, so this demo will not work."
+          );
+        }
+      });
+
+      function renderError(message) {
+        const main = document.querySelector('main');
+        main.innerHTML = `<div class="error"><p>${message}</p></div>`;
+      }
+
+      function renderRecording(blob, list) {
+        const blobUrl = URL.createObjectURL(blob);
+        const li = document.createElement('li');
+        const audio = document.createElement('audio');
+        audio.setAttribute('src', blobUrl);
+        audio.setAttribute('controls', 'controls');
+        li.appendChild(audio);
+        list.appendChild(li);
+      }
+    </script>
+ </div>
+</div>
+
+<script>
+   /*
+    $(document).ready(function() {
+        $("form").on("submit", function(event) {
+            var rawText = $("#text").val();
+            var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
+            $("#text").val("");
+            $("#chatbox").append(userHtml);
+            document.getElementById("userInput").scrollIntoView({
+                block: "start",
+                behavior: "smooth",
+            });
+            $.ajax({
+                data: {
+                    msg: rawText,
+                },
+                type: "POST",
+                url: "/get",
+            }).done(function(data) {
+                var botHtml = '<p class="botText"><span>' + data + "</span></p>";
+                $("#chatbox").append($.parseHTML(botHtml));
+                document.getElementById("userInput").scrollIntoView({
+                    block: "start",
+                    behavior: "smooth",
+                });
+            });
+            event.preventDefault();
+        });
+    });
+
+    */
+</script>
+
+
+</body>
+</html>
