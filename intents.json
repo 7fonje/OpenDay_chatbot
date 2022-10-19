@@ -1,0 +1,132 @@
+{
+    "intents": [
+      {
+        "tag": "greeting",
+        "patterns": [
+          "Hi",
+          "Hey",
+          "How are you",
+          "Is anyone there?",
+          "Hello",
+          "Good day"
+        ],
+        "responses": [
+          "Hey :-) Welcome to MPU, how can I help you?",
+          "Hello, thanks for visiting Macao Polytechnic University",
+          "Hello there, what can I do for you?",
+          "Hi there, welcome to MPU, how can I help you?"
+        ]
+      },
+      {
+        "tag": "goodbye",
+        "patterns": ["Bye", "Ok, bye", "See you later", "Goodbye"],
+        "responses": [
+          "See you later, thanks for visiting MPU",
+          "Bye! Hope you have a good day in MPU."
+        ]
+      },
+      {
+        "tag": "thanks",
+        "patterns": ["Thanks", "Thank you", "That's helpful", "Thank's a lot!"],
+        "responses": ["You're welcome! Enjoy your day in MPU!","Happy to help!", "My pleasure"]
+      },
+
+      {
+        "tag": "open_times",
+        "patterns": [
+          "When is the MPU open day?",
+          "What can I come to the MPU open day?"
+        ],
+        "responses":[
+          "You are welcome to join the MPU Open Day 2022 on 8 January at main campus, from one to six PM. Hope you will experience and explore the amazing campus life in our university!"
+        ]
+      },
+
+      {
+        "tag": "events",
+        "patterns": [
+          "What events do you have?",
+          "What events do we have today?",
+          "Which open day events can I join?"
+        ],
+        "responses": [
+          "We have three major events on the open day, the Scholarship Awards Ceremony start at 2 PM, the Open Day Opening Ceremony start at 2: 40 PM at the MPU Multisport Pavilion. We also have Campus Tour from 3PM to 5PM, you're welcome to join with us."
+        ]
+      },
+
+      {
+        "tag": "activity",
+        "patterns": [
+          "What kinds of activities are there?",
+          "What activities can I experience in MPU Open Day?",
+          "Which open day activities can I join?"
+        ],
+        "responses": [
+          "We have the Music Fun Paradise at Campus Garden and Meng Tak Building, Simultaneous Interpretation Lab Tour at Room B303, Chi Un Building, and more."
+        ]
+      },
+
+      {
+        "tag": "under_degree",
+        "patterns": [
+          "I want to know more about the undergraduate programmes offered in MPU.",
+          "What kinds of undergraduate degrees does MPU have?",
+          "Could you tell me more about the undergraduate degree programmes in MPU?",
+          "I am thinking about taking an undergraduate degree in MPU, what options do I have?"
+        ],
+        "responses": [
+          "For undergraduate programmes, MPU offer a wide variety of degrees in Public Management, Health Sciences, Arts, Languages and Translation, Information Technology, Business and Management. Which field are you looking for?"
+        ]
+      },
+
+      {
+        "tag": "under_IT",
+        "patterns": [
+          "I like computer science, what undergraduate programme can I apply?",
+          "What kinds of Information Technology undergraduate degrees does MPU have?",
+          "Could you tell me more about the Information Technology undergraduate programme?"
+        ],
+        "responses": [
+          "For undergraduate programmes in IT, MPU offer a Bachelor of Science in Computing programme. If you're interested, please join the Programme Presentation at 3PM in MPU Multisport Pavillion."
+        ]
+      },
+
+      {
+        "tag": "post_degree",
+        "patterns": [
+          "I want to know more about the postgraduate PROGRAMMES offered in MPU.",
+          "What kinds of postgraduate degrees does MPU have?",
+          "Could you tell me more about the postgraduate degree in MPU?",
+          "I am thinking about taking a postgraduate degree in MPU, what options do I have?"
+        ],
+        "responses": [
+          "For postgraduate programmes, MPU offer a wide variety of degrees in Public Management, Health Sciences, Arts, Languages and Translation, Information Technology, Business and Management. Which field are you looking for?"
+        ]
+      },
+      {
+        "tag": "post_IT",
+        "patterns": [
+          "I am interested in Big Data, what postgraduate programme can I apply?",
+          "What kinds of Information Technology postgraduate degrees does MPU have?",
+          "I am thinking about geting a PhD degree about Information Technology in MPU, what options do I have?"
+        ],
+        "responses": [
+          "MPU offer two postgraduates programmes related to Information Technology, they are Master of Science in Big Data and Internet of Things and PhD in Computer Applied Technology. If you're interested, please join the Programme Presentation at 3PM in MPU Multisport Pavillion."
+        ]
+      },
+      {
+        "tag": "post_lang",
+        "patterns": [
+          "I like Portuguese culture, what postgraduate degree can I apply in MPU?",
+          "What kinds of language and translation postgraduate degrees does MPU have?",
+          "I am thinking about continuing my study in language translation in MPU, what options do I have?"
+        ],
+        "responses": [
+          "MPU offer two postgraduates programmes in Language and Translation, one is the Master of Chinese-Portuguese Translation, another is the PhD in Portuguese. If you're interested, please join the Programme Presentation at 4PM in MPU Multisport Pavillion. See you there :)"
+        ]
+      }
+
+
+
+    ]
+  }
